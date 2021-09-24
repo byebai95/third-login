@@ -27,23 +27,46 @@ public class LoginController {
     private final GithubProperty property;
 
 
+    /**
+     * 登陆跳转
+     * @return
+     */
     @GetMapping
     public String login() {
         return "login";
     }
 
+    /**
+     * 回掉地址
+     * @param request
+     * @return
+     */
     @GetMapping("/thirdLoginCallBack")
     public ModelAndView thirdLoginCallBack(HttpServletRequest request) {
-
         String code = request.getParameter("code");
         log.info("回调获取 code : {}", code);
 
+        //根据 code 拿 token
+        String accessToken = getToken(code);
+
+        //根据token 获取用户信息
+        String username = getUserName(accessToken);
+        ModelAndView model = new ModelAndView("index");
+        model.addObject("username",username);
+        return model;
+    }
+
+    /**
+     * 根据 code 获取 token
+     * @param code
+     * @return
+     */
+    private String getToken(String code){
         Map<String, Object> requestParam = new HashMap<>();
         requestParam.put("client_id", property.getClientId());
         requestParam.put("client_secret", property.getClientSecret());
         requestParam.put("code", code);
         requestParam.put("redirect_uri", property.getRedirectUri());
-        //根据 code 拿 token
         HttpRequestVO requestToken = new HttpRequestVO();
         Map<String, Object> header = new HashMap<>();
         header.put("Accept", "application/json");
@@ -52,21 +75,24 @@ public class LoginController {
         log.info("根据 code 获取到 access_token:{}", response);
         TokenVO tokenVO = JsonUtils.json2obj(response,TokenVO.class);
         log.info("access_token:{}",tokenVO.getAccessToken());
+        return tokenVO.getAccessToken();
+    }
 
-        //根据token 获取用户信息
+    /**
+     * 根据 token 获取用户信息
+     * @param accessToken
+     * @return
+     */
+    private String getUserName(String accessToken){
         HttpRequestVO requestUserInfo = new HttpRequestVO();
-        Map<String, Object> header2 = new HashMap<>();
-        header2.put("Authorization", "token "+tokenVO.getAccessToken());
-        header2.put("accept","application/json");
-        requestUserInfo.createQueryRequestByMap(property.getUserInfo(),null,header2);
-        String response2 = HttpRequestUtils.getRequest(requestUserInfo);
-        log.info("获取到用户信息：{}",response2);
-        UserInfoVO userInfoVO = JsonUtils.json2obj(response2,UserInfoVO.class);
-        ModelAndView model = new ModelAndView();
-        model.addObject("username",userInfoVO.getLogin());
-        model.setViewName("index");
-        log.info(userInfoVO.getLogin());
-        return model;
+        Map<String, Object> header = new HashMap<>();
+        header.put("Authorization", "token "+accessToken);
+        header.put("accept","application/json");
+        requestUserInfo.createQueryRequestByMap(property.getUserInfo(),null,header);
+        String response = HttpRequestUtils.getRequest(requestUserInfo);
+        log.info("获取到用户信息：{}",response);
+        UserInfoVO userInfoVO = JsonUtils.json2obj(response,UserInfoVO.class);
+        return userInfoVO.getLogin();
     }
 
 
