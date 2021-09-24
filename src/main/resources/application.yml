@@ -1,0 +1,14 @@
+user:
+  github:
+    clientId: c3c514279462548fdf61
+    clientSecret: 76a2bb4074731d9d4856ec952832512564aa471a
+    tokenUri: https://github.com/login/oauth/access_token
+    redirectUri: http://localhost:8080/thirdLoginCallBack
+    userInfo: https://api.github.com/user
+
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
