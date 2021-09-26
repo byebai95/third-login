@@ -33,7 +33,7 @@
     const authorize_uri = 'https://accounts.google.com/o/oauth2/auth';
     const redirect_uri = 'http://localhost:8080/google/thirdLoginCallBack';
     const response_type = 'code'
-    const scope = 'https://www.googleapis.com/auth/plus.me'
+    const scope = 'profile'
 
     const link = document.getElementById('login');
     link.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}`;

@@ -4,19 +4,20 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Data
-@ConfigurationProperties(prefix = "user.github")
+@ConfigurationProperties(prefix = "user.google")
 @Component
-public class GithubProperty {
+@Data
+public class GoogleProperty {
 
     private String clientId;
 
     private String clientSecret;
 
-    private String tokenUri;
+    private String grantType;
 
-    private String redirectUri;
+    private String redirectUrl;
+
+    private String tokenUrl;
 
     private String userInfoUrl;
-
 }

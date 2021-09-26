@@ -67,7 +67,7 @@ public class GithubLoginService {
         Map<String, Object> header = new HashMap<>();
         header.put("Authorization", "token "+accessToken);
         header.put("accept","application/json");
-        requestUserInfo.createQueryRequestByMap(property.getUserInfo(),null,header);
+        requestUserInfo.createQueryRequestByMap(property.getUserInfoUrl(),null,header);
         String response = HttpRequestUtils.getRequest(requestUserInfo);
         log.info("获取到用户信息：{}",response);
         UserInfoVO userInfoVO = JsonUtils.json2obj(response,UserInfoVO.class);
