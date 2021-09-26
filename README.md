@@ -1,3 +1,5 @@
+三方登录支持： google 、 github
+
 step 1
 ```
 user:
