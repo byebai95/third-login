@@ -34,10 +34,10 @@ spring:
 ```
 step 2
 ```aidl
-//github 登陆
+//github 
 http://localhost:8080/github
 
-//google 登陆
+//google 
 http://localhost:8080/google
 
 //facebook
