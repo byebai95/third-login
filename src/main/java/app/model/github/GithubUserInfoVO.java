@@ -3,7 +3,7 @@ package app.model.github;
 import lombok.Data;
 
 @Data
-public class UserInfoVO {
+public class GithubUserInfoVO {
 
     private String login;
 

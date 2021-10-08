@@ -1,8 +1,8 @@
 package app.service;
 
 import app.config.GoogleProperty;
-import app.model.google.TokenVO;
-import app.model.google.UserInfoVO;
+import app.model.google.GoogleTokenVO;
+import app.model.google.GoogleUserInfoVO;
 import app.util.HttpRequestUtils;
 import app.util.HttpRequestVO;
 import app.util.JsonUtils;
@@ -48,7 +48,7 @@ public class GoogleLoginService {
         requestToken.createBodyRequestByMap(googleProperty.getTokenUrl(), params, header);
         String response = HttpRequestUtils.postRequest(requestToken);
         log.info("google 根据 code 获取到 access_token:{}", response);
-        TokenVO tokenVO = JsonUtils.json2obj(response, TokenVO.class);
+        GoogleTokenVO tokenVO = JsonUtils.json2obj(response, GoogleTokenVO.class);
         return tokenVO.getAccessToken();
     }
 
@@ -60,7 +60,7 @@ public class GoogleLoginService {
         requestUserInfo.createQueryRequestByMap(googleProperty.getUserInfoUrl(),null,header);
         String response = HttpRequestUtils.getRequest(requestUserInfo);
         log.info("获取到用户信息：{}",response);
-        UserInfoVO userInfoVO = JsonUtils.json2obj(response,UserInfoVO.class);
+        GoogleUserInfoVO userInfoVO = JsonUtils.json2obj(response, GoogleUserInfoVO.class);
         return userInfoVO.getName();
     }
 }

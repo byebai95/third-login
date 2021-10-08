@@ -6,7 +6,7 @@ import lombok.Data;
  * https://developers.google.com/identity/protocols/oauth2/native-app?hl=RU#step1-code-verifier
  */
 @Data
-public class TokenVO {
+public class GoogleTokenVO {
 
     //授权的请求令牌
     private String accessToken;

@@ -3,7 +3,7 @@ package app.model.google;
 import lombok.Data;
 
 @Data
-public class UserInfoVO {
+public class GoogleUserInfoVO {
 
     private String id;
     private String name;

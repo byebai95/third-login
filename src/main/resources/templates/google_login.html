@@ -3,29 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <meta name="google-signin-client_id" content="918272533109-mq26hm62t2vb7ommrh9t5qtu24n1jusm.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
-<!--<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>-->
-<!--<script>-->
-<!--    function onSignIn(googleUser) {-->
-<!--        // Useful data for your client-side scripts:-->
-<!--        var profile = googleUser.getBasicProfile();-->
-<!--        console.log("ID: " + profile.getId()); // Don't send this directly to your server!-->
-<!--        console.log('Full Name: ' + profile.getName());-->
-<!--        console.log('Given Name: ' + profile.getGivenName());-->
-<!--        console.log('Family Name: ' + profile.getFamilyName());-->
-<!--        console.log("Image URL: " + profile.getImageUrl());-->
-<!--        console.log("Email: " + profile.getEmail());-->
 
-<!--        // The ID token you need to pass to your backend:-->
-<!--        var id_token = googleUser.getAuthResponse().id_token;-->
-<!--        console.log("ID Token: " + id_token);-->
-<!--        document.cookie = id_token;-->
-<!--    }-->
-<!--</script>-->
-<a id="login">Google Login</a>
+<a id="login">Login with Google</a>
 <script>
     // fill in your client_id
     const client_id = '918272533109-mq26hm62t2vb7ommrh9t5qtu24n1jusm.apps.googleusercontent.com';
@@ -33,7 +15,7 @@
     const authorize_uri = 'https://accounts.google.com/o/oauth2/auth';
     const redirect_uri = 'http://localhost:8080/google/thirdLoginCallBack';
     const response_type = 'code'
-    const scope = 'profile'
+    const scope = 'profile';
 
     const link = document.getElementById('login');
     link.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}`;

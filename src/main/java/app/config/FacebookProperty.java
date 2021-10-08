@@ -5,9 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Data
-@ConfigurationProperties(prefix = "user.github")
+@ConfigurationProperties(prefix = "user.facebook")
 @Component
-public class GithubProperty {
+public class FacebookProperty {
 
     private String clientId;
 
@@ -17,6 +17,10 @@ public class GithubProperty {
 
     private String redirectUrl;
 
+    //检查的口令
+    private String state;
+
     private String userInfoUrl;
 
 }
+

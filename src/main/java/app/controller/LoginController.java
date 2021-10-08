@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.service.FaceBookLoginService;
 import app.service.GithubLoginService;
 import app.service.GoogleLoginService;
 import lombok.AllArgsConstructor;
@@ -16,19 +17,25 @@ public class LoginController {
 
     private final GithubLoginService githubLoginService;
     private final GoogleLoginService googleLoginService;
+    private final FaceBookLoginService faceBookLoginService;
 
     /**
      * 登陆跳转
      * @return
      */
     @GetMapping("/github")
-    public String login() {
+    public String github() {
         return "github_login";
     }
 
     @GetMapping("/google")
     public String google() {
         return "google_login";
+    }
+
+    @GetMapping("/facebook")
+    public String facebook() {
+        return "facebook_login";
     }
 
     /**
@@ -52,7 +59,13 @@ public class LoginController {
         return model;
     }
 
-
+    @GetMapping("/facebook/thirdLoginCallBack")
+    public ModelAndView facebookThirdLoginCallBack(HttpServletRequest request){
+        String username = faceBookLoginService.thirdLoginByFaceBook(request);
+        ModelAndView model = new ModelAndView("index");
+        model.addObject("username",username);
+        return model;
+    }
 }
 
 
