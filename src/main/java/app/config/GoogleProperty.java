@@ -20,4 +20,6 @@ public class GoogleProperty {
     private String tokenUrl;
 
     private String userInfoUrl;
+
+    private String baseUrl;
 }

@@ -5,6 +5,7 @@ user:
     tokenUrl: https://github.com/login/oauth/access_token
     redirectUrl: http://localhost:8080/github/thirdLoginCallBack
     userInfoUrl: https://api.github.com/user
+    baseUrl: http://localhost:8080
   google:
     clientId: 918272533109-mq26hm62t2vb7ommrh9t5qtu24n1jusm.apps.googleusercontent.com
     clientSecret: Yy57lgdCs36kMlk4mg4IaS14
@@ -12,6 +13,7 @@ user:
     tokenUrl: https://oauth2.googleapis.com/token
     grantType: authorization_code
     userInfoUrl: https://www.googleapis.com/oauth2/v1/userinfo
+    baseUrl: http://localhost:8080
   facebook:
     clientId: 416481940036394
     clientSecret: 1fbdf979783f714c7e83247911a8ddef
@@ -19,11 +21,12 @@ user:
     tokenUrl: https://graph.facebook.com/v12.0/oauth/access_token
     state: {st=state123abc,ds=123456789}
     userInfoUrl: https://graph.facebook.com/me
+    baseUrl: http://localhost:8080
 
 
 server:
   port: 8080
-
-spring:
-  thymeleaf:
-    prefix: classpath:/templates/
+#
+#spring:
+#  thymeleaf:
+#    prefix: classpath:/static/

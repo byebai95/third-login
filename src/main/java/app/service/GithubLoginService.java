@@ -9,7 +9,7 @@ import app.util.JsonUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
+import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,15 +24,13 @@ public class GithubLoginService {
 
     public String thirdLoginByGitHub(HttpServletRequest request){
         String code = request.getParameter("code");
-        log.info("回调获取 code : {}", code);
+        log.info("【Github 三方登录】 回调获取 code 成功: {}", code);
 
         //根据 code 拿 token
         String accessToken = getToken(code);
 
         //根据token 获取用户信息
-        String username = getUserName(accessToken);
-
-        return username;
+        return getRedirectUrl(accessToken);
     }
 
     /**
@@ -46,33 +44,51 @@ public class GithubLoginService {
         requestParam.put("client_secret", property.getClientSecret());
         requestParam.put("code", code);
         requestParam.put("redirect_uri", property.getRedirectUrl());
+
         HttpRequestVO requestToken = new HttpRequestVO();
         Map<String, Object> header = new HashMap<>();
         header.put("Accept", "application/json");
+
         requestToken.createBodyRequestByMap(property.getTokenUrl(), requestParam, header);
         String response = HttpRequestUtils.postRequest(requestToken);
-        log.info("根据 code 获取到 access_token:{}", response);
 
-        GithubTokenVO tokenVO = JsonUtils.json2obj(response, GithubTokenVO.class);
-        log.info("access_token:{}",tokenVO.getAccessToken());
-        return tokenVO.getAccessToken();
+        if(response == null){
+            log.error("【Github 三方登录】 请求 token 返回为空");
+            return null;
+        }
+
+        GithubTokenVO githubTokenVO = JsonUtils.json2obj(response, GithubTokenVO.class);
+        log.info("【Github 三方登录】 请求 token 成功：{}",githubTokenVO.getAccessToken());
+
+        return githubTokenVO.getAccessToken();
     }
 
     /**
-     * 根据 token 获取用户信息
      * @param accessToken
      * @return
      */
-    private String getUserName(String accessToken){
+    private String getRedirectUrl(String accessToken){
+
+        if(accessToken == null){
+            return property.getBaseUrl() + "/error.html";
+        }
+
         HttpRequestVO requestUserInfo = new HttpRequestVO();
         Map<String, Object> header = new HashMap<>();
         header.put("Authorization", "token "+accessToken);
         header.put("accept","application/json");
-        requestUserInfo.createQueryRequestByMap(property.getUserInfoUrl(),null,header);
+
+        requestUserInfo.createQueryRequestByMap(property.getUserInfoUrl(),new HashMap<>(),header);
         String response = HttpRequestUtils.getRequest(requestUserInfo);
-        log.info("获取到用户信息：{}",response);
-        GithubUserInfoVO userInfoVO = JsonUtils.json2obj(response, GithubUserInfoVO.class);
-        return userInfoVO.getLogin();
+        if(StringUtils.isEmpty(response)){
+            log.error("【Github 三方登录】 查询用户信息失败");
+            return property.getBaseUrl() + "/error.html";
+        }
+
+        GithubUserInfoVO githubUserInfoVO = JsonUtils.json2obj(response, GithubUserInfoVO.class);
+
+        log.info("【Github 三方登录】 查询用户信息成功：{}",githubUserInfoVO.getLogin());
+        return property.getBaseUrl() + "/index.html";
     }
 
 }

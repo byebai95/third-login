@@ -19,4 +19,6 @@ public class GithubProperty {
 
     private String userInfoUrl;
 
+    private String baseUrl;
+
 }

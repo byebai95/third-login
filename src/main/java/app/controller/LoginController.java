@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
@@ -45,26 +47,20 @@ public class LoginController {
      */
     @GetMapping("/github/thirdLoginCallBack")
     public ModelAndView githubThirdLoginCallBack(HttpServletRequest request) {
-        String username = githubLoginService.thirdLoginByGitHub(request);
-        ModelAndView model = new ModelAndView("index");
-        model.addObject("username",username);
-        return model;
+        String redirectUrl = githubLoginService.thirdLoginByGitHub(request);
+        return new ModelAndView(new RedirectView(redirectUrl));
     }
 
     @GetMapping("/google/thirdLoginCallBack")
     public ModelAndView googleThirdLoginCallBack(HttpServletRequest request){
-        String username = googleLoginService.thirdLoginByGoogle(request);
-        ModelAndView model = new ModelAndView("index");
-        model.addObject("username",username);
-        return model;
+        String redirectUrl = googleLoginService.thirdLoginByGoogle(request);
+        return new ModelAndView(new RedirectView(redirectUrl));
     }
 
     @GetMapping("/facebook/thirdLoginCallBack")
     public ModelAndView facebookThirdLoginCallBack(HttpServletRequest request){
-        String username = faceBookLoginService.thirdLoginByFaceBook(request);
-        ModelAndView model = new ModelAndView("index");
-        model.addObject("username",username);
-        return model;
+        String redirectUrl = faceBookLoginService.thirdLoginByFaceBook(request);
+        return new ModelAndView(new RedirectView(redirectUrl));
     }
 }
 

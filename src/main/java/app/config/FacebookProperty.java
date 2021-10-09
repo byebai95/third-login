@@ -22,5 +22,7 @@ public class FacebookProperty {
 
     private String userInfoUrl;
 
+    private String baseUrl;
+
 }
 

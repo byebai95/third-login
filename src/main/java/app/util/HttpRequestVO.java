@@ -3,8 +3,8 @@ package app.util;
 import java.util.Map;
 
 public class HttpRequestVO {
-    private static final int CONNECTION_REQUEST_TIMEOUT = 3000;
-    private static final int CONNECTION_TIMEOUT = 3000;
+    private static final int CONNECTION_REQUEST_TIMEOUT = 5000;
+    private static final int CONNECTION_TIMEOUT = 5000;
     private static final int SOCKET_TIMEOUT = 30000;
     private String uri;
     private Map<String, Object> queryParams;

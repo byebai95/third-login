@@ -8,6 +8,8 @@ import app.util.JsonUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +28,8 @@ public class FaceBookLoginService {
         //获取 token
         String token = getToken(code);
 
-        //获取用户名称
-        String username = getUserName(token);
-        return username;
+        //获取重定向地址
+        return getRedirectUrl(token);
     }
 
     private String getToken(String code){
@@ -42,14 +43,23 @@ public class FaceBookLoginService {
 
         requestToken.createQueryRequestByMap(property.getTokenUrl(), requestParam,new HashMap<>());
         String response = HttpRequestUtils.getRequest(requestToken);
-        log.info("根据 code 获取到 access_token:{}", response);
 
+        if(response == null){
+            return null;
+        }
+
+        log.info("根据 code 获取到 access_token:{}", response);
         FaceBookTokenVO tokenVO = JsonUtils.json2obj(response, FaceBookTokenVO.class);
         log.info("access_token:{}",tokenVO.getAccessToken());
         return tokenVO.getAccessToken();
     }
 
-    private String getUserName(String accessToken){
+    private String getRedirectUrl(String accessToken){
+
+        if(accessToken == null){
+            return property.getBaseUrl() + "/error.html";
+        }
+
         HttpRequestVO requestUserInfo = new HttpRequestVO();
         Map<String, Object> header = new HashMap<>();
         header.put("Authorization", accessToken);
@@ -57,8 +67,12 @@ public class FaceBookLoginService {
 
         requestUserInfo.createQueryRequestByMap(property.getUserInfoUrl(),null,header);
         String response = HttpRequestUtils.getRequest(requestUserInfo);
+        if(StringUtils.isEmpty(response)){
+            return property.getBaseUrl() + "/error.html";
+        }
+
         log.info("获取到用户信息：{}",response);
 
-        return "";
+        return property.getBaseUrl() + "/index.html";
     }
 }
