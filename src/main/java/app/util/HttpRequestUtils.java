@@ -27,23 +27,19 @@ public class HttpRequestUtils {
     }
 
     public static String getRequest(HttpRequestVO request) {
-        String response = doRequest(request, HttpMethod.GET);
-        return response;
+        return doRequest(request, HttpMethod.GET);
     }
 
     public static String postRequest(HttpRequestVO request) {
-        String response = doRequest(request, HttpMethod.POST);
-        return response;
+        return doRequest(request, HttpMethod.POST);
     }
 
     public static String putRequest(HttpRequestVO request) {
-        String response = doRequest(request, HttpMethod.PUT);
-        return response;
+        return doRequest(request, HttpMethod.PUT);
     }
 
     public static String deleteRequest(HttpRequestVO request) {
-        String response = doRequest(request, HttpMethod.DELETE);
-        return response;
+        return doRequest(request, HttpMethod.DELETE);
     }
 
     private static String doRequest(HttpRequestVO request, HttpMethod method) {

@@ -26,7 +26,7 @@ user:
 
 server:
   port: 8080
-#
-#spring:
-#  thymeleaf:
-#    prefix: classpath:/static/
+
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
